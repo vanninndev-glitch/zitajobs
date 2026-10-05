@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ZitaJobs | Empleos en Zitácuaro, Michoacán</title>
+  <meta name="description" content="Encuentra empleo en Zitácuaro, Michoacán. Ofertas de trabajo locales, postulaciones y empresas de la región."/>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <!-- Tailwind CDN para utilidades -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: {
+        colors: {
+          'zita-primary': '#E91E8C',
+          'zita-secondary': '#FFB800',
+          'zita-cyan': '#00BCD4',
+          'zita-purple': '#8B1FA9',
+        }
+      }}
+    }
+  </script>
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <div id="navbar-root"></div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <canvas id="hero-canvas" class="hero-canvas"></canvas>
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span>📍</span> Zitácuaro, Michoacán
+      </div>
+      <h1 class="hero-title">
+        Encuentra tu próximo<br>
+        <span class="gradient-text">empleo en Zitácuaro</span>
+      </h1>
+      <p class="hero-subtitle">
+        La plataforma de empleos #1 de la región. Conectamos talento local con las mejores empresas de Zitácuaro.
+      </p>
+
+      <!-- Search bar -->
+      <div class="search-bar" id="search-bar-hero">
+        <input type="text" id="search-q" class="search-input" placeholder="🔍 Puesto, empresa o palabra clave..."/>
+        <div class="search-divider"></div>
+        <button class="search-btn" id="hero-search-btn">Buscar Empleo</button>
+      </div>
+
+      <!-- Quick stats -->
+      <div class="flex flex-wrap gap-4 mt-6 text-sm text-gray-500 dark:text-gray-400" style="animation: fade-up 0.6s 0.4s ease both; opacity:0;">
+        <span id="stat-jobs" class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">—</span> Empleos activos</span>
+        <span class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">100%</span> Empresas verificadas</span>
+        <span class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">Gratis</span> Para candidatos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <main class="page-main" style="padding-bottom: 3rem;">
+    <div class="container">
+      <!-- Filters / categories -->
+      <div style="padding-top: 2rem;">
+        <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
+          <h2 class="section-title" id="results-title">Empleos disponibles</h2>
+          <div class="flex items-center gap-2">
+            <select id="filter-type" class="form-select" style="width:auto; font-size:0.85rem; padding:0.4rem 0.75rem;">
+              <option value="">Todos los tipos</option>
+              <option value="Tiempo completo">Tiempo completo</option>
+              <option value="Medio tiempo">Medio tiempo</option>
+              <option value="Por proyecto">Por proyecto</option>
+            </select>
+            <select id="filter-category" class="form-select" style="width:auto; font-size:0.85rem; padding:0.4rem 0.75rem;">
+              <option value="">Todas las categorías</option>
+              <option value="Manufactura">Manufactura</option>
+              <option value="Tecnología">Tecnología</option>
+              <option value="Administración">Administración</option>
+              <option value="Diseño">Diseño</option>
+              <option value="Ventas">Ventas</option>
+              <option value="Educación">Educación</option>
+              <option value="Salud">Salud</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="categories" id="category-chips">
+          <button class="category-chip active" data-cat="">Todos</button>
+          <button class="category-chip" data-cat="Manufactura">⚙️ Manufactura</button>
+          <button class="category-chip" data-cat="Tecnología">💻 Tecnología</button>
+          <button class="category-chip" data-cat="Administración">📋 Administración</button>
+          <button class="category-chip" data-cat="Diseño">🎨 Diseño</button>
+          <button class="category-chip" data-cat="Ventas">💼 Ventas</button>
+          <button class="category-chip" data-cat="Educación">📚 Educación</button>
+          <button class="category-chip" data-cat="Salud">❤️ Salud</button>
+        </div>
+
+        <!-- Jobs layout (list + detail) -->
+        <div class="jobs-layout">
+          <!-- Left: job list -->
+          <div class="jobs-list-panel">
+            <div id="jobs-list">
+              <!-- Skeleton loaders -->
+              ${[1,2,3,4].map(() => `
+                <div class="card mb-3">
+                  <div class="skeleton h-4 w-3/4 mb-2"></div>
+                  <div class="skeleton h-3 w-1/2 mb-4"></div>
+                  <div class="flex gap-2">
+                    <div class="skeleton h-6 w-20 rounded-full"></div>
+                    <div class="skeleton h-6 w-24 rounded-full"></div>
+                  </div>
+                </div>
+              `).join('')}
+            </div>
+            <div id="pagination" class="pagination mt-4"></div>
+          </div>
+
+          <!-- Right: detail panel -->
+          <div id="job-detail">
+            <div class="detail-panel">
+              <div class="empty-state" style="padding: 5rem 2rem;">
+                <div class="empty-state-icon">🔎</div>
+                <div class="empty-state-title">Selecciona un empleo</div>
+                <p class="empty-state-sub">Elige una oferta de la lista para ver los detalles y postularte</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- APPLY MODAL -->
+  <div id="apply-modal" class="modal-overlay hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="apply-modal-title">
+      <div class="modal-header">
+        <h2 class="modal-title" id="apply-modal-title">Postularme al empleo</h2>
+        <button class="modal-close" data-modal-close="apply-modal" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="apply-job-preview" class="card mb-4" style="background: var(--bg-card-2);"></div>
+
+        <!-- CV upload -->
+        <div class="form-group">
+          <label class="form-label">📎 Tu CV <span style="color:var(--text-muted); font-weight:400;">(PDF, DOC, DOCX — máx. 5MB)</span></label>
+          <div class="file-upload-zone" id="cv-drop-zone">
+            <input type="file" id="cv-file-input" accept=".pdf,.doc,.docx"/>
+            <div id="cv-upload-placeholder">
+              <div style="font-size:2rem; margin-bottom:0.5rem;">📄</div>
+              <p style="font-size:0.9rem; color:var(--text-muted);">Arrastra tu CV aquí o <span class="text-primary" style="cursor:pointer;">selecciona archivo</span></p>
+            </div>
+            <div id="cv-file-selected" class="hidden" style="font-size:0.9rem; color:var(--zita-primary); font-weight:600;"></div>
+          </div>
+          <p id="cv-existing-note" class="text-muted mt-1" style="font-size:0.8rem;"></p>
+        </div>
+
+        <!-- Cover letter -->
+        <div class="form-group">
+          <label class="form-label">✍️ Carta de presentación <span style="color:var(--text-muted); font-weight:400;">(opcional)</span></label>
+          <textarea id="apply-cover-letter" class="form-textarea" placeholder="Cuéntale a la empresa por qué eres el candidato ideal..."></textarea>
+        </div>
+
+        <button id="apply-submit-btn" class="btn btn-primary btn-block btn-lg">
+          Enviar postulación
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="flex flex-wrap gap-8 justify-between">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <img src="assets/images/logo.jpg" alt="ZitaJobs" style="width:36px; height:36px; object-fit:contain; border-radius:8px;">
+            <span class="text-gradient" style="font-family:var(--font-display); font-weight:800; font-size:1.2rem;">ZitaJobs</span>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-muted); max-width:240px; line-height:1.6;">La plataforma de empleo local de Zitácuaro, Michoacán.</p>
+        </div>
+        <div>
+          <h4 style="font-size:0.85rem; font-weight:700; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.06em;">Para candidatos</h4>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <a href="index.html" style="font-size:0.85rem; color:var(--text-muted);">Buscar empleos</a>
+            <a href="mis-postulaciones.html" style="font-size:0.85rem; color:var(--text-muted);">Mis postulaciones</a>
+            <a href="crear-cuenta.html" style="font-size:0.85rem; color:var(--text-muted);">Crear cuenta</a>
+          </div>
+        </div>
+        <div>
+          <h4 style="font-size:0.85rem; font-weight:700; margin-bottom:0.75rem; text-transform:uppercase; letter-spacing:0.06em;">Para empresas</h4>
+          <div style="display:flex; flex-direction:column; gap:0.4rem;">
+            <a href="publicar-empleo.html" style="font-size:0.85rem; color:var(--text-muted);">Publicar empleo</a>
+            <a href="dashboard-empresa.html" style="font-size:0.85rem; color:var(--text-muted);">Panel de empresa</a>
+            <a href="empresas.html" style="font-size:0.85rem; color:var(--text-muted);">Directorio de empresas</a>
+          </div>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2024 ZitaJobs — Zitácuaro, Michoacán. Todos los derechos reservados.</p>
+        <div class="flex items-center gap-2">
+          <img src="assets/images/logo.jpg" alt="" style="width:20px; height:20px; object-fit:contain; border-radius:4px; opacity:0.6;">
+          <span style="font-size:0.75rem; color:var(--text-muted);">Construyendo juntos</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/js/config.js"></script>
+  <script type="module" src="src/js/pages/index.js"></script>
+</body>
+</html>

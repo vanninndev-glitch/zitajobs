@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mis Postulaciones | ZitaJobs</title>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="page-main">
+    <div class="container" style="padding-top:2rem; padding-bottom:4rem; max-width:860px;">
+
+      <div class="mb-8" data-animate>
+        <h1 style="font-family:var(--font-display); font-size:1.875rem; font-weight:900; margin-bottom:0.35rem;">Mis Postulaciones</h1>
+        <p class="text-muted">Revisa el estado de todas tus postulaciones en tiempo real.</p>
+      </div>
+
+      <!-- Stats row -->
+      <div class="stats-grid mb-8" style="grid-template-columns:repeat(3,1fr);" data-animate>
+        <div class="stat-card cyan">
+          <div class="stat-number" id="stat-revision">—</div>
+          <div class="stat-label">En revisión</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-number" id="stat-accepted">—</div>
+          <div class="stat-label">Aceptadas</div>
+        </div>
+        <div class="stat-card" style="border-color:rgba(239,68,68,0.3);">
+          <div class="stat-number" style="color:#ef4444;" id="stat-rejected">—</div>
+          <div class="stat-label">No seleccionado</div>
+        </div>
+      </div>
+
+      <!-- Filter tabs -->
+      <div class="tabs" id="status-tabs">
+        <button class="tab active" data-filter="all">Todas</button>
+        <button class="tab" data-filter="revision">🔍 En revisión</button>
+        <button class="tab" data-filter="aceptado">✅ Aceptadas</button>
+        <button class="tab" data-filter="rechazado">❌ No seleccionado</button>
+      </div>
+
+      <!-- Applications list -->
+      <div id="applications-container">
+        <div class="empty-state">
+          <div class="empty-state-icon">⏳</div>
+          <p>Cargando postulaciones...</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="src/js/config.js"></script>
+  <script type="module" src="src/js/pages/mis-postulaciones.js"></script>
+</body>
+</html>

@@ -1,0 +1,11 @@
+const router=require('express').Router();
+const {getProfile,updateProfile,uploadCV,uploadLogo,getCompanies,getOwnCvUrl}=require('../controllers/usersController');
+const {authMiddleware,requireRole}=require('../middleware/auth');
+const {uploadCV:uploadCVMiddleware,uploadLogo:uploadLogoMiddleware}=require('../middleware/upload');
+router.get('/profile',authMiddleware,getProfile);
+router.put('/profile',authMiddleware,updateProfile);
+router.post('/upload-cv',authMiddleware,requireRole('candidato'),uploadCVMiddleware.single('cv'),uploadCV);
+router.get('/cv',authMiddleware,requireRole('candidato'),getOwnCvUrl);
+router.post('/upload-logo',authMiddleware,requireRole('empresa'),uploadLogoMiddleware.single('logo'),uploadLogo);
+router.get('/companies',getCompanies);
+module.exports=router;

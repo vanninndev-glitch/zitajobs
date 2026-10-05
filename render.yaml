@@ -1,0 +1,36 @@
+services:
+  - type: web
+    name: zitajobs-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm ci
+    startCommand: npm start
+    plan: free
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: DATABASE_URL
+        sync: false
+      - key: DATABASE_SSL
+        value: true
+      - key: JWT_SECRET
+        sync: false
+      - key: JWT_EXPIRES_IN
+        value: 7d
+      - key: FRONTEND_URL
+        sync: false
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SERVICE_ROLE_KEY
+        sync: false
+      - key: SUPABASE_CV_BUCKET
+        value: cvs
+      - key: SUPABASE_LOGO_BUCKET
+        value: logos
+      - key: MAX_FILE_SIZE_MB
+        value: 5
+      - key: SEED_DEMO_DATA
+        value: false

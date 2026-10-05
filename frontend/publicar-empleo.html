@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Publicar Empleo | ZitaJobs</title>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="page-main">
+    <div class="container" style="padding-top:2.5rem; padding-bottom:4rem; max-width:820px;">
+
+      <!-- Header -->
+      <div class="mb-8" data-animate>
+        <a href="dashboard-empresa.html" style="font-size:0.85rem; color:var(--text-muted); display:inline-flex; align-items:center; gap:0.375rem; margin-bottom:1rem;">
+          ← Volver al panel
+        </a>
+        <h1 style="font-family:var(--font-display); font-size:2rem; font-weight:900; margin-bottom:0.35rem;">Publicar nueva oferta</h1>
+        <p class="text-muted">Completa los detalles del puesto para atraer a los mejores candidatos.</p>
+      </div>
+
+      <div id="form-error" class="alert alert-error hidden mb-6"></div>
+      <div id="form-success" class="alert alert-success hidden mb-6"></div>
+
+      <form id="job-form" novalidate>
+
+        <!-- Sección 1: Info básica -->
+        <div class="card mb-5" data-animate>
+          <h2 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; margin-bottom:1.25rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border);">
+            📋 Información básica
+          </h2>
+
+          <div class="form-group">
+            <label class="form-label" for="title">Título del puesto <span style="color:#ef4444;">*</span></label>
+            <input type="text" id="title" class="form-input" placeholder="ej. Desarrollador Web Full Stack" required maxlength="100"/>
+            <p class="form-error hidden" id="err-title">Este campo es obligatorio</p>
+          </div>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="category">Categoría <span style="color:#ef4444;">*</span></label>
+              <select id="category" class="form-select" required>
+                <option value="">Seleccionar...</option>
+                <option>Manufactura</option>
+                <option>Tecnología</option>
+                <option>Administración</option>
+                <option>Diseño</option>
+                <option>Ventas</option>
+                <option>Educación</option>
+                <option>Salud</option>
+                <option>Construcción</option>
+                <option>Servicio al cliente</option>
+                <option>Logística</option>
+                <option>Recursos Humanos</option>
+                <option>Finanzas</option>
+                <option>Otro</option>
+              </select>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="type">Tipo de contrato</label>
+              <select id="type" class="form-select">
+                <option>Tiempo completo</option>
+                <option>Medio tiempo</option>
+                <option>Por proyecto</option>
+                <option>Prácticas / Pasantía</option>
+                <option>Temporal</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <!-- Sección 2: Condiciones -->
+        <div class="card mb-5" data-animate>
+          <h2 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; margin-bottom:1.25rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border);">
+            💰 Condiciones laborales
+          </h2>
+
+          <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="salary">Salario mensual</label>
+              <input type="text" id="salary" class="form-input" placeholder="ej. $9,000 - $12,000 MXN/mes"/>
+            </div>
+            <div class="form-group" style="margin-bottom:0;">
+              <label class="form-label" for="location">Ubicación</label>
+              <input type="text" id="location" class="form-input" placeholder="Zitácuaro, Michoacán" value="Zitácuaro, Michoacán"/>
+            </div>
+          </div>
+
+          <div class="form-group mt-4">
+            <label class="form-label" for="schedule">Horario</label>
+            <input type="text" id="schedule" class="form-input" placeholder="ej. Lunes a Viernes 8:00 - 17:00"/>
+          </div>
+        </div>
+
+        <!-- Sección 3: Descripción -->
+        <div class="card mb-5" data-animate>
+          <h2 style="font-family:var(--font-display); font-weight:700; font-size:1.05rem; margin-bottom:1.25rem; padding-bottom:0.75rem; border-bottom:1px solid var(--border);">
+            📝 Descripción del puesto
+          </h2>
+
+          <div class="form-group">
+            <label class="form-label" for="description">Descripción general <span style="color:#ef4444;">*</span></label>
+            <textarea id="description" class="form-textarea" rows="5" placeholder="Describe las funciones principales, responsabilidades y el ambiente de trabajo..." required></textarea>
+            <p class="form-error hidden" id="err-description">La descripción es obligatoria</p>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label" for="requirements">
+              Requisitos <span style="color:var(--text-muted); font-weight:400; font-size:0.8rem;">(uno por línea)</span>
+            </label>
+            <textarea id="requirements" class="form-textarea" rows="5" placeholder="2 años de experiencia en el puesto&#10;Licenciatura en área afín&#10;Manejo de paquetería Office&#10;Disponibilidad de horario"></textarea>
+          </div>
+
+          <div class="form-group" style="margin-bottom:0;">
+            <label class="form-label" for="benefits">
+              Beneficios <span style="color:var(--text-muted); font-weight:400; font-size:0.8rem;">(uno por línea)</span>
+            </label>
+            <textarea id="benefits" class="form-textarea" rows="4" placeholder="IMSS&#10;Infonavit&#10;Aguinaldo&#10;Fondo de ahorro"></textarea>
+          </div>
+        </div>
+
+        <!-- Preview card -->
+        <div class="card mb-6" id="preview-card" style="border:2px dashed var(--border); display:none;" data-animate>
+          <h3 style="font-size:0.8rem; font-weight:700; text-transform:uppercase; letter-spacing:0.06em; color:var(--text-muted); margin-bottom:1rem;">Vista previa</h3>
+          <div id="preview-content"></div>
+        </div>
+
+        <div style="display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <button type="button" id="preview-btn" class="btn btn-secondary">👁 Vista previa</button>
+          <button type="submit" id="submit-btn" class="btn btn-primary btn-lg" style="flex:1;">
+            🚀 Publicar oferta
+          </button>
+        </div>
+      </form>
+    </div>
+  </main>
+
+  <script src="src/js/config.js"></script>
+  <script type="module" src="src/js/pages/publicar-empleo.js"></script>
+</body>
+</html>

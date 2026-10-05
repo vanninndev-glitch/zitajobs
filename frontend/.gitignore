@@ -1,0 +1,6 @@
+# Carpeta pública duplicada (se usa la de assets/ directamente)
+public/
+
+# Archivos del sistema
+.DS_Store
+Thumbs.db

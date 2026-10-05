@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mi Perfil | ZitaJobs</title>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="page-main">
+    <div class="container" style="padding-top:2rem; padding-bottom:4rem; max-width:720px;">
+
+      <!-- Profile header -->
+      <div class="card mb-6" style="background:linear-gradient(135deg, rgba(233,30,140,0.06), rgba(139,31,169,0.06)); border:1px solid rgba(233,30,140,0.15);" data-animate>
+        <div style="display:flex; flex-wrap:wrap; align-items:center; gap:1.25rem;">
+          <div id="avatar-big" style="width:72px;height:72px;border-radius:50%;background:var(--zita-gradient);display:flex;align-items:center;justify-content:center;font-size:2rem;font-weight:800;color:white;flex-shrink:0;box-shadow:var(--shadow-glow);">
+            —
+          </div>
+          <div style="flex:1;">
+            <h1 id="profile-name" style="font-family:var(--font-display);font-size:1.5rem;font-weight:800;margin-bottom:0.15rem;">Cargando...</h1>
+            <p id="profile-email" style="color:var(--text-muted);font-size:0.875rem;margin-bottom:0.375rem;"></p>
+            <div id="profile-role-badge"></div>
+          </div>
+          <div>
+            <span id="member-since" style="font-size:0.78rem;color:var(--text-muted);"></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Form tabs -->
+      <div class="tabs" style="margin-bottom:1.5rem;">
+        <button class="tab active" data-tab="info">📋 Información</button>
+        <button class="tab" data-tab="cv" id="tab-cv-btn">📎 CV / Documentos</button>
+        <button class="tab" data-tab="security">🔒 Seguridad</button>
+      </div>
+
+      <!-- Tab: Info -->
+      <div id="tab-info" class="tab-panel">
+        <div class="card" data-animate>
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);">
+            Información personal
+          </h2>
+
+          <div id="form-msg" class="hidden mb-4"></div>
+
+          <form id="profile-form">
+            <div class="form-group">
+              <label class="form-label">Nombre completo</label>
+              <input type="text" id="pf-name" class="form-input"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" id="pf-phone" class="form-input" placeholder="715 123 4567"/>
+            </div>
+
+            <!-- Candidato-specific fields -->
+            <div id="candidato-fields">
+              <div class="form-group">
+                <label class="form-label">Educación</label>
+                <input type="text" id="pf-education" class="form-input" placeholder="ej. Licenciatura en Administración - UNAM"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Experiencia</label>
+                <textarea id="pf-experience" class="form-textarea" rows="3" placeholder="Breve descripción de tu experiencia laboral..."></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Habilidades <span style="color:var(--text-muted);font-weight:400;font-size:0.8rem;">(separadas por coma)</span></label>
+                <input type="text" id="pf-skills" class="form-input" placeholder="Excel, Word, Atención al cliente, Ventas"/>
+              </div>
+            </div>
+
+            <!-- Empresa-specific fields -->
+            <div id="empresa-fields" class="hidden">
+              <div class="form-group">
+                <label class="form-label">Nombre de la empresa</label>
+                <input type="text" id="pf-companyName" class="form-input"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sector</label>
+                <input type="text" id="pf-sector" class="form-input"/>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Descripción de la empresa</label>
+                <textarea id="pf-description" class="form-textarea" rows="4"></textarea>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Sitio web</label>
+                <input type="url" id="pf-website" class="form-input" placeholder="https://..."/>
+              </div>
+            </div>
+
+            <button type="submit" id="profile-save-btn" class="btn btn-primary">Guardar cambios</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Tab: CV -->
+      <div id="tab-cv" class="tab-panel hidden">
+        <div class="card" data-animate>
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);">
+            📎 Gestión de documentos
+          </h2>
+
+          <div id="cv-current" class="mb-5" style="padding:1rem; background:var(--bg-card-2); border-radius:var(--radius-md); border:1px solid var(--border);">
+            <p style="font-size:0.85rem; color:var(--text-muted);">Cargando...</p>
+          </div>
+
+          <label class="form-label">Subir nuevo CV</label>
+          <div class="file-upload-zone" id="cv-drop-zone">
+            <input type="file" id="cv-input" accept=".pdf,.doc,.docx"/>
+            <div id="cv-upload-ph">
+              <div style="font-size:2.5rem; margin-bottom:0.5rem;">📄</div>
+              <p style="font-size:0.9rem; color:var(--text-muted);">Arrastra tu CV o <span style="color:var(--zita-primary);cursor:pointer;">haz clic para seleccionar</span></p>
+              <p style="font-size:0.75rem; color:var(--text-light); margin-top:0.25rem;">PDF, DOC o DOCX — máx. 5MB</p>
+            </div>
+            <div id="cv-selected-name" class="hidden" style="font-size:0.9rem;color:var(--zita-primary);font-weight:600;"></div>
+          </div>
+          <button id="cv-upload-btn" class="btn btn-primary mt-4 hidden">⬆️ Subir CV</button>
+
+          <!-- Empresa: logo upload -->
+          <div id="logo-section" class="hidden" style="margin-top:2rem; padding-top:1.5rem; border-top:1px solid var(--border);">
+            <label class="form-label">Logo de la empresa</label>
+            <div class="file-upload-zone" id="logo-drop-zone">
+              <input type="file" id="logo-input" accept=".jpg,.jpeg,.png,.webp"/>
+              <div style="font-size:2rem; margin-bottom:0.5rem;">🏢</div>
+              <p style="font-size:0.9rem; color:var(--text-muted);">JPG, PNG o WEBP — máx. 5MB</p>
+            </div>
+            <button id="logo-upload-btn" class="btn btn-secondary mt-4 hidden">⬆️ Subir logo</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tab: Security -->
+      <div id="tab-security" class="tab-panel hidden">
+        <div class="card" data-animate>
+          <h2 style="font-family:var(--font-display);font-weight:700;font-size:1.05rem;margin-bottom:1.25rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border);">
+            🔒 Seguridad de la cuenta
+          </h2>
+          <div style="padding:2rem; text-align:center; color:var(--text-muted);">
+            <div style="font-size:3rem; margin-bottom:1rem;">🔐</div>
+            <p style="font-size:0.9rem; margin-bottom:1.5rem;">El cambio de contraseña requiere que contactes al administrador o que se implemente un flujo de correo electrónico.</p>
+            <div style="background:var(--bg-card-2); border-radius:var(--radius-md); padding:1rem; font-size:0.85rem; text-align:left; border:1px solid var(--border);">
+              <p style="font-weight:600; margin-bottom:0.5rem;">ℹ️ Para producción se recomienda:</p>
+              <ul style="color:var(--text-muted); list-style:disc; padding-left:1.25rem; display:flex; flex-direction:column; gap:0.3rem;">
+                <li>Flujo de recuperación por email (Nodemailer + token)</li>
+                <li>Autenticación de dos factores (2FA)</li>
+                <li>OAuth con Google / Microsoft</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <script src="src/js/config.js"></script>
+  <script type="module" src="src/js/pages/perfil.js"></script>
+</body>
+</html>

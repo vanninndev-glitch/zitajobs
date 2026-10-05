@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Empresas | ZitaJobs</title>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js" defer></script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <!-- Page hero -->
+  <section style="background:linear-gradient(135deg, rgba(233,30,140,0.06) 0%, rgba(139,31,169,0.06) 100%); border-bottom:1px solid var(--border); padding:3rem 0 2rem; position:relative; overflow:hidden;">
+    <canvas id="empresas-canvas" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;opacity:0.4;"></canvas>
+    <div class="container" style="position:relative;z-index:1;">
+      <div class="hero-badge" style="animation:none; opacity:1; margin-bottom:0.875rem;">🏢 Directorio Empresarial</div>
+      <h1 style="font-family:var(--font-display); font-size:clamp(1.75rem,4vw,3rem); font-weight:900; margin-bottom:0.75rem;">
+        Empresas de <span class="text-gradient">Zitácuaro</span>
+      </h1>
+      <p style="color:var(--text-muted); max-width:520px; margin-bottom:1.5rem;">Descubre las empresas que contratan en la región y explora sus ofertas de trabajo.</p>
+
+      <!-- Search -->
+      <div class="search-bar" style="max-width:480px; animation:none; opacity:1;">
+        <input type="text" id="company-search" class="search-input" placeholder="🔍 Buscar empresa o sector..."/>
+        <button class="search-btn" id="company-search-btn">Buscar</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="page-main">
+    <div class="container" style="padding-top:2.5rem; padding-bottom:4rem;">
+      <div id="companies-grid" style="display:grid; grid-template-columns:repeat(auto-fill, minmax(280px, 1fr)); gap:1.25rem;">
+        <!-- Skeleton -->
+        ${[1,2,3,4,5,6].map(() => `
+          <div class="card">
+            <div style="display:flex; gap:0.875rem; margin-bottom:1rem;">
+              <div class="skeleton" style="width:52px; height:52px; border-radius:12px; flex-shrink:0;"></div>
+              <div style="flex:1;">
+                <div class="skeleton" style="height:1rem; width:70%; margin-bottom:0.4rem;"></div>
+                <div class="skeleton" style="height:0.75rem; width:50%;"></div>
+              </div>
+            </div>
+            <div class="skeleton" style="height:0.75rem; width:100%; margin-bottom:0.3rem;"></div>
+            <div class="skeleton" style="height:0.75rem; width:80%; margin-bottom:1rem;"></div>
+            <div class="skeleton" style="height:2rem; border-radius:8px;"></div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+      <div class="footer-bottom">
+        <p class="footer-copy">© 2024 ZitaJobs — Zitácuaro, Michoacán</p>
+        <img src="assets/images/logo.jpg" alt="" style="width:24px;height:24px;object-fit:contain;border-radius:4px;opacity:0.5;">
+      </div>
+    </div>
+  </footer>
+
+  <script src="src/js/config.js"></script>
+  <script type="module" src="src/js/pages/empresas.js"></script>
+</body>
+</html>

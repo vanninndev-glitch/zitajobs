@@ -1,0 +1,47 @@
+# ─── Node ─────────────────────────────────────────────
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# ─── Variables de entorno (NUNCA subir al repo) ────────
+.env
+.env.local
+.env.*.local
+backend/.env
+backend/.env.local
+
+# ─── Archivos subidos por usuarios ────────────────────
+backend/uploads/cvs/*
+backend/uploads/logos/*
+# Mantener las carpetas vacías en git:
+!backend/uploads/cvs/.gitkeep
+!backend/uploads/logos/.gitkeep
+
+# ─── Logs ─────────────────────────────────────────────
+logs/
+*.log
+
+# ─── Sistema operativo ────────────────────────────────
+.DS_Store
+.DS_Store?
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ─── Editores ─────────────────────────────────────────
+.vscode/settings.json
+.idea/
+*.swp
+*.swo
+*~
+
+# ─── Build / dist ─────────────────────────────────────
+dist/
+build/
+.cache/
+
+# ─── Temporales ───────────────────────────────────────
+*.tmp
+*.temp

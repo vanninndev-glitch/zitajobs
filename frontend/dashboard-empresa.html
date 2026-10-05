@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Panel Empresa | ZitaJobs</title>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+
+  <main class="page-main">
+    <div class="container" style="padding-top:2rem; padding-bottom:3rem;">
+      <!-- Header -->
+      <div class="flex flex-wrap items-center justify-between gap-4 mb-8" data-animate>
+        <div>
+          <h1 style="font-family:var(--font-display); font-size:1.75rem; font-weight:900; margin-bottom:0.25rem;">Panel de Empresa</h1>
+          <p class="text-muted" id="company-greeting">Bienvenido de vuelta</p>
+        </div>
+        <a href="publicar-empleo.html" class="btn btn-primary">
+          ＋ Publicar Empleo
+        </a>
+      </div>
+
+      <!-- Stats -->
+      <div class="stats-grid mb-8" data-animate>
+        <div class="stat-card primary">
+          <div class="stat-number" id="stat-active-jobs">—</div>
+          <div class="stat-label">Empleos activos</div>
+        </div>
+        <div class="stat-card cyan">
+          <div class="stat-number" id="stat-total-apps">—</div>
+          <div class="stat-label">Postulaciones</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-number" id="stat-accepted">—</div>
+          <div class="stat-label">Aceptados</div>
+        </div>
+        <div class="stat-card yellow">
+          <div class="stat-number" id="stat-views">—</div>
+          <div class="stat-label">Vistas totales</div>
+        </div>
+      </div>
+
+      <!-- Tabs -->
+      <div class="tabs">
+        <button class="tab active" data-tab="jobs">📋 Mis Ofertas</button>
+        <button class="tab" data-tab="applications">👥 Postulaciones</button>
+        <button class="tab" data-tab="profile">🏢 Perfil Empresa</button>
+      </div>
+
+      <!-- Tab: My Jobs -->
+      <div id="tab-jobs" class="tab-panel">
+        <div id="my-jobs-list">
+          <div class="empty-state"><div class="empty-state-icon">⏳</div><p>Cargando...</p></div>
+        </div>
+      </div>
+
+      <!-- Tab: Applications -->
+      <div id="tab-applications" class="tab-panel hidden">
+        <div class="mb-4">
+          <label class="form-label">Seleccionar oferta:</label>
+          <select id="job-selector" class="form-select" style="max-width:400px;"></select>
+        </div>
+        <div id="applications-list">
+          <div class="empty-state"><div class="empty-state-icon">👥</div><div class="empty-state-title">Selecciona una oferta</div><p class="empty-state-sub">Para ver las postulaciones recibidas</p></div>
+        </div>
+      </div>
+
+      <!-- Tab: Profile -->
+      <div id="tab-profile" class="tab-panel hidden">
+        <div class="card" style="max-width:600px;" data-animate>
+          <h3 style="font-family:var(--font-display); font-size:1.1rem; font-weight:700; margin-bottom:1.25rem;">Información de la empresa</h3>
+          <form id="profile-form">
+            <div class="form-group">
+              <label class="form-label">Nombre de la empresa</label>
+              <input type="text" id="prof-companyName" class="form-input"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sector / Industria</label>
+              <input type="text" id="prof-sector" class="form-input"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Descripción</label>
+              <textarea id="prof-description" class="form-textarea" rows="4" placeholder="Cuéntales a los candidatos sobre tu empresa..."></textarea>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" id="prof-phone" class="form-input"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Sitio web</label>
+              <input type="url" id="prof-website" class="form-input" placeholder="https://..."/>
+            </div>
+            <button type="submit" id="profile-save-btn" class="btn btn-primary">Guardar cambios</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Application detail modal -->
+  <div id="app-modal" class="modal-overlay hidden">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 class="modal-title">Detalle de Postulación</h2>
+        <button class="modal-close" data-modal-close="app-modal">✕</button>
+      </div>
+      <div class="modal-body" id="app-modal-body"></div>
+    </div>
+  </div>
+
+  <script src="src/js/config.js"></script>
+  <script type="module" src="src/js/pages/dashboard-empresa.js"></script>
+</body>
+</html>
