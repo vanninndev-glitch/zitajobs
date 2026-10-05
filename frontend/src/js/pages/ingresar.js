@@ -13,16 +13,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const errEl = document.getElementById('form-error');
   const btn = document.getElementById('submit-btn');
 
-  // Demo login buttons
-  document.querySelectorAll('.demo-login-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      document.getElementById('email').value = b.dataset.email;
-      document.getElementById('password').value = b.dataset.password;
-      b.style.borderColor = 'var(--zita-primary)';
-      b.style.color = 'var(--zita-primary)';
-    });
-  });
-
   // Password toggle
   document.getElementById('toggle-password')?.addEventListener('click', () => {
     const input = document.getElementById('password');
