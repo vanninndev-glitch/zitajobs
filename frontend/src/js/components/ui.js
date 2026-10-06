@@ -1,6 +1,6 @@
 // src/js/components/ui.js - Componentes UI reutilizables
 
-import { getUser, isLoggedIn, isEmpresa, clearAuth } from '../api.js';
+import { getUser, isLoggedIn, isEmpresa, isAdmin, clearAuth } from '../api.js';
 
 // ─── TOAST NOTIFICATIONS ─────────────────────────────────────────────────────
 export function toast(message, type = 'info', duration = 3500) {
@@ -72,6 +72,9 @@ export function renderNavbar(activePage = '') {
     ] : []),
     ...(loggedIn && !empresa ? [
       { href: 'mis-postulaciones.html', label: 'Mis Postulaciones', key: 'postulaciones' }
+    ] : []),
+    ...(loggedIn && isAdmin() ? [
+      { href: 'admin.html', label: 'Moderación', key: 'admin' }
     ] : [])
   ];
 

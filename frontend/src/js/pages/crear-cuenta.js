@@ -47,11 +47,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!name || !email || !password) { errEl.textContent = 'Completa los campos obligatorios'; errEl.classList.remove('hidden'); return; }
     if (password.length < 6) { errEl.textContent = 'La contraseña debe tener al menos 6 caracteres'; errEl.classList.remove('hidden'); return; }
+    if (!document.getElementById('accept-terms').checked) { errEl.textContent = 'Acepta el Aviso de privacidad y los Términos para crear tu cuenta'; errEl.classList.remove('hidden'); return; }
 
     const btn = document.getElementById('submit-btn');
     setLoading(btn, true, 'Creando cuenta...');
     try {
-      const res = await auth.register({ name, email, password, role: selectedRole, phone, companyName, sector });
+      const res = await auth.register({ name, email, password, role: selectedRole, phone, companyName, sector, acceptTerms: true });
       setAuth(res.token, res.user);
       toast(`¡Cuenta creada! Bienvenido/a ${res.user.name.split(' ')[0]} 🎉`, 'success');
       setTimeout(() => {

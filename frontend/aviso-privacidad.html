@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Aviso de privacidad | ZitaJobs</title>
+  <meta name="description" content="Cómo ZitaJobs recaba, usa y protege tus datos personales."/>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+  <main class="legal-page">
+    <div id="legal-warning" class="alert alert-warning hidden" style="margin-bottom:1.25rem;">
+      ⚠️ Falta completar los datos del responsable en <code>frontend/src/js/legal-config.js</code>. Cuando lo hagas, este aviso desaparece.
+    </div>
+    <h1>Aviso de privacidad</h1>
+    <p class="legal-meta">Última actualización: <span data-legal="actualizado"></span></p>
+
+    <h2>1. Quién es el responsable</h2>
+    <p><strong data-legal="responsable"></strong>, con domicilio en <span data-legal="domicilio"></span>, es responsable del tratamiento de tus datos personales en ZitaJobs, una plataforma web de empleo local para Zitácuaro, Michoacán. Para cualquier duda sobre este aviso escribe a <span data-legal="correo"></span>.</p>
+
+    <h2>2. Qué datos recabamos</h2>
+    <ul>
+      <li><strong>Candidatos:</strong> nombre, correo electrónico, contraseña (guardada cifrada, nunca en texto legible), teléfono (opcional), habilidades, experiencia, escolaridad, CV y carta de presentación.</li>
+      <li><strong>Empresas:</strong> nombre del representante, correo, teléfono (opcional), nombre de la empresa, sector, descripción, sitio web y logotipo.</li>
+      <li><strong>Datos técnicos:</strong> dirección IP y registros básicos de acceso que generan los proveedores de alojamiento, y información guardada en tu navegador (sesión y tema claro/oscuro) para que el sitio funcione.</li>
+    </ul>
+    <p>No te pedimos datos personales sensibles. Te recomendamos no incluirlos en tu CV (por ejemplo, datos de salud, religión u orientación sexual ni fotografías si no son necesarias para el puesto).</p>
+
+    <h2>3. Para qué usamos tus datos</h2>
+    <p><strong>Finalidades necesarias</strong> (sin ellas no podemos darte el servicio):</p>
+    <ul>
+      <li>Crear y administrar tu cuenta e iniciar tu sesión.</li>
+      <li>Permitir que te postules a vacantes y que las empresas revisen tu postulación.</li>
+      <li>Enviarte correos del servicio: confirmación de postulación, cambios de estado, recuperación de contraseña y avisos de seguridad. A las empresas, avisos de nuevas postulaciones y de moderación de sus vacantes.</li>
+      <li>Moderar la plataforma: atender reportes de vacantes, prevenir fraudes y verificar empresas.</li>
+    </ul>
+    <p>No usamos tus datos para publicidad ni los vendemos. No tenemos finalidades secundarias.</p>
+
+    <h2>4. Con quién los compartimos</h2>
+    <ul>
+      <li><strong>Empresas a las que te postulas:</strong> reciben tu nombre, correo, teléfono, perfil, CV y carta de presentación solo para la vacante a la que aplicaste. Tu CV se entrega con un enlace temporal y privado.</li>
+      <li><strong>Proveedores tecnológicos</strong> que alojan o hacen funcionar el servicio: alojamiento del sitio y del servidor, base de datos y almacenamiento de archivos, y envío de correos. Solo tratan los datos para prestarnos ese servicio.</li>
+      <li><strong>Autoridades</strong>, cuando una ley o una orden legítima lo exija.</li>
+    </ul>
+    <p>Los datos públicos del directorio de empresas (nombre, sector, descripción, teléfono, sitio web y logotipo) son visibles para cualquier visitante.</p>
+
+    <h2>5. Tus derechos (ARCO)</h2>
+    <p>Puedes <strong>acceder</strong> a tus datos, <strong>rectificarlos</strong>, pedir su <strong>cancelación</strong> u <strong>oponerte</strong> a su uso, y revocar tu consentimiento. Para ejercerlos, escribe a <span data-legal="correo"></span> desde el correo con el que te registraste, indicando qué derecho quieres ejercer. Responderemos en un plazo máximo de 20 días hábiles. Puedes corregir la mayoría de tus datos directamente en tu perfil.</p>
+    <p>Si consideras que tu derecho a la protección de datos fue vulnerado, puedes acudir a la autoridad competente en materia de protección de datos personales en México.</p>
+
+    <h2>6. Cuánto tiempo conservamos tus datos</h2>
+    <p>Mientras tu cuenta esté activa. Si solicitas su cancelación, los eliminamos, salvo lo que debamos conservar por obligación legal o para atender una disputa.</p>
+
+    <h2>7. Cambios a este aviso</h2>
+    <p>Si cambiamos este aviso, publicaremos la nueva versión en esta página con su fecha de actualización.</p>
+
+    <p style="margin-top:2rem;">Consulta también los <a href="terminos.html">Términos y condiciones de uso</a>.</p>
+  </main>
+  <script src="src/js/config.js"></script>
+  <script src="src/js/legal-config.js"></script>
+  <script type="module" src="src/js/pages/legal.js"></script>
+</body>
+</html>

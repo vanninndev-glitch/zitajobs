@@ -71,6 +71,45 @@ Genera el JWT secret con:
 node -e "console.log(require('crypto').randomBytes(64).toString('hex'))"
 ```
 
+## Novedades v1.2
+
+- **Aviso de privacidad y Términos** (`aviso-privacidad.html`, `terminos.html`) y casilla obligatoria al registrarse. ⚠️ Completa tus datos en `frontend/src/js/legal-config.js` y haz que un abogado revise los textos antes de promocionar el sitio.
+- **Recuperar contraseña** (`olvide-contrasena.html` → correo → `restablecer-contrasena.html`). Enlace de un solo uso que vence en 1 hora.
+- **Moderación**: botón “Reportar vacante”, ocultamiento automático con 3 reportes, panel `admin.html`, verificación de empresas con insignia ✔ y, opcionalmente, aprobación previa de vacantes.
+- **Ubicaciones normalizadas** (catálogo de la región + “Remoto”, texto libre para otras ciudades) y **filtro por ubicación** en la búsqueda. La búsqueda también encuentra por nombre de empresa.
+- **Compartir vacantes** por WhatsApp, Facebook o copiando el enlace (`index.html?empleo=ID`) y vista previa al compartir el sitio (Open Graph).
+- **Correos**: nueva postulación (empresa), confirmación y cambios de estado (candidato), avisos de moderación.
+- El directorio público de empresas ya no expone correo ni datos del representante.
+
+### Correos
+
+No hacen falta dependencias. Elige un proveedor con API HTTP (Render Free bloquea SMTP):
+
+1. Crea una cuenta en [Brevo](https://www.brevo.com) (plan gratuito) o [Resend](https://resend.com).
+2. Verifica un remitente (Brevo: un correo; Resend: un dominio) y crea una API key.
+3. En Render → Environment agrega `EMAIL_PROVIDER` (`brevo` o `resend`), `EMAIL_API_KEY` y `EMAIL_FROM`.
+
+Sin estas variables el sitio funciona, pero **no se envían correos** (incluida la recuperación de contraseña).
+
+### Administrador
+
+El acceso a `admin.html` se da por base de datos (no por correo, para que nadie pueda registrarse con tu correo y obtenerlo). Regístrate normalmente y luego:
+
+```bash
+cd backend && npm run make-admin -- tu-correo@ejemplo.com
+```
+
+o en el SQL Editor de Supabase: `UPDATE users SET is_admin = TRUE WHERE lower(email) = lower('tu-correo@ejemplo.com');`
+Después cierra sesión y vuelve a entrar para ver el enlace **Moderación**.
+
+### Pruebas
+
+```bash
+cd backend
+npm test                                   # pruebas unitarias
+TEST_DATABASE_URL=postgresql://usuario:clave@localhost:5432/zitajobs_test npm test   # + integración (vacía las tablas; el nombre de la base debe contener "test")
+```
+
 ## Supabase
 
 1. Crea un proyecto gratuito en Supabase.

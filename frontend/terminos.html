@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Términos y condiciones | ZitaJobs</title>
+  <meta name="description" content="Reglas de uso de ZitaJobs para candidatos y empresas."/>
+  <link rel="icon" href="assets/images/logo.jpg"/>
+  <link rel="stylesheet" href="src/css/main.css"/>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config = { darkMode: 'class' }</script>
+</head>
+<body>
+  <div id="navbar-root"></div>
+  <main class="legal-page">
+    <div id="legal-warning" class="alert alert-warning hidden" style="margin-bottom:1.25rem;">
+      ⚠️ Falta completar los datos del responsable en <code>frontend/src/js/legal-config.js</code>. Cuando lo hagas, este aviso desaparece.
+    </div>
+    <h1>Términos y condiciones de uso</h1>
+    <p class="legal-meta">Última actualización: <span data-legal="actualizado"></span></p>
+
+    <h2>1. Qué es ZitaJobs</h2>
+    <p>ZitaJobs es una plataforma gratuita que conecta a personas que buscan empleo con empresas de Zitácuaro y la región. Es operada por <strong data-legal="responsable"></strong>. Somos un intermediario: <strong>no contratamos</strong> ni somos parte de la relación laboral entre empresa y candidato, y no garantizamos que consigas empleo ni que una vacante se cubra.</p>
+
+    <h2>2. Tu cuenta</h2>
+    <ul>
+      <li>Debes dar información verdadera y mantener tu contraseña en secreto.</li>
+      <li>Eres responsable de lo que se haga desde tu cuenta.</li>
+      <li>Debes ser mayor de edad para usar la plataforma.</li>
+    </ul>
+
+    <h2>3. Reglas para empresas</h2>
+    <p>Al publicar una vacante te comprometes a que sea real, que tengas autorización para ofrecerla y que la información sea veraz. Está prohibido:</p>
+    <ul>
+      <li>Pedir dinero, depósitos, “cuotas de inscripción”, compras de material o cualquier pago a los candidatos para contratarlos.</li>
+      <li>Publicar vacantes falsas, engañosas o para recolectar datos personales con otros fines.</li>
+      <li>Discriminar por origen, género, edad, discapacidad, religión, orientación sexual, estado civil, embarazo u otra condición protegida por la ley.</li>
+      <li>Publicar contenido ilegal, ofensivo o que ponga en riesgo a las personas.</li>
+    </ul>
+
+    <h2>3.1 Reglas para candidatos</h2>
+    <p>No suplantes a otra persona, no envíes documentos falsos y no uses los datos de contacto de las empresas para fines distintos al proceso de selección.</p>
+
+    <h2>4. Reportes y moderación</h2>
+    <p>Cualquier persona con cuenta puede reportar una vacante. Podemos ocultar una vacante mientras la revisamos, retirarla, o suspender cuentas que incumplan estas reglas, sin previo aviso cuando exista riesgo para otras personas. La insignia de “empresa verificada” indica que revisamos datos básicos de contacto de la empresa; <strong>no es una garantía</strong> sobre las condiciones del empleo. Antes de compartir datos sensibles o hacer cualquier pago, desconfía y repórtalo.</p>
+
+    <h2>5. Contenido que publicas</h2>
+    <p>Conservas la propiedad de lo que subes (vacantes, perfil, CV). Nos autorizas a mostrarlo y procesarlo dentro de la plataforma para prestar el servicio descrito en el <a href="aviso-privacidad.html">Aviso de privacidad</a>.</p>
+
+    <h2>6. Disponibilidad y responsabilidad</h2>
+    <p>Ofrecemos el servicio tal como está; puede tener interrupciones o cambios. En la medida que permita la ley, no somos responsables por las decisiones de contratación de las empresas, por la veracidad de lo que publiquen los usuarios, ni por pérdidas derivadas del uso de la plataforma.</p>
+
+    <h2>7. Cambios y contacto</h2>
+    <p>Podemos actualizar estos términos; la versión vigente es la publicada aquí con su fecha. Si tienes dudas o quieres reportar un problema, escribe a <span data-legal="correo"></span>.</p>
+  </main>
+  <script src="src/js/config.js"></script>
+  <script src="src/js/legal-config.js"></script>
+  <script type="module" src="src/js/pages/legal.js"></script>
+</body>
+</html>

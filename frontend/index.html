@@ -5,6 +5,17 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>ZitaJobs | Empleos en Zitácuaro, Michoacán</title>
   <meta name="description" content="Encuentra empleo en Zitácuaro, Michoacán. Ofertas de trabajo locales, postulaciones y empresas de la región."/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:locale" content="es_MX"/>
+  <meta property="og:site_name" content="ZitaJobs"/>
+  <meta property="og:title" content="ZitaJobs | Empleos en Zitácuaro, Michoacán"/>
+  <meta property="og:description" content="Encuentra empleo en Zitácuaro y la región. Vacantes locales, postulaciones y empresas."/>
+  <meta property="og:url" content="https://zitajobs-frontend.vercel.app/"/>
+  <meta property="og:image" content="https://zitajobs-frontend.vercel.app/assets/images/og-zitajobs.jpg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta name="twitter:card" content="summary_large_image"/>
+  <meta name="twitter:image" content="https://zitajobs-frontend.vercel.app/assets/images/og-zitajobs.jpg"/>
   <link rel="icon" href="assets/images/logo.jpg"/>
   <link rel="stylesheet" href="src/css/main.css"/>
   <!-- Tailwind CDN para utilidades -->
@@ -54,7 +65,7 @@
       <!-- Quick stats -->
       <div class="flex flex-wrap gap-4 mt-6 text-sm text-gray-500 dark:text-gray-400" style="animation: fade-up 0.6s 0.4s ease both; opacity:0;">
         <span id="stat-jobs" class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">—</span> Empleos activos</span>
-        <span class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">100%</span> Empresas verificadas</span>
+        <span class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">✔</span> Insignia de empresa verificada</span>
         <span class="flex items-center gap-1.5"><span class="text-zita-primary font-bold text-base">Gratis</span> Para candidatos</span>
       </div>
     </div>
@@ -73,6 +84,9 @@
               <option value="Tiempo completo">Tiempo completo</option>
               <option value="Medio tiempo">Medio tiempo</option>
               <option value="Por proyecto">Por proyecto</option>
+            </select>
+            <select id="filter-location" class="form-select" aria-label="Filtrar por ubicación" style="width:auto; font-size:0.85rem; padding:0.4rem 0.75rem;">
+              <option value="">Todas las ubicaciones</option>
             </select>
             <select id="filter-category" class="form-select" style="width:auto; font-size:0.85rem; padding:0.4rem 0.75rem;">
               <option value="">Todas las categorías</option>
@@ -170,6 +184,36 @@
     </div>
   </div>
 
+  <!-- REPORT MODAL -->
+  <div id="report-modal" class="modal-overlay hidden">
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="report-modal-title">
+      <div class="modal-header">
+        <h2 class="modal-title" id="report-modal-title">Reportar vacante</h2>
+        <button class="modal-close" data-modal-close="report-modal" aria-label="Cerrar">✕</button>
+      </div>
+      <div class="modal-body">
+        <div id="report-job-preview" class="card mb-4" style="background: var(--bg-card-2);"></div>
+        <div class="form-group">
+          <label class="form-label" for="report-reason">¿Qué pasa con esta vacante?</label>
+          <select id="report-reason" class="form-select">
+            <option value="">Selecciona un motivo</option>
+            <option value="fraude">Parece un fraude o estafa</option>
+            <option value="cobro">Piden dinero para contratar</option>
+            <option value="informacion_falsa">La información es falsa o engañosa</option>
+            <option value="discriminacion">Es discriminatoria</option>
+            <option value="ofensivo">Contenido ofensivo o ilegal</option>
+            <option value="otro">Otro motivo</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="report-details">Detalles <span style="color:var(--text-muted); font-weight:400;">(opcional)</span></label>
+          <textarea id="report-details" class="form-textarea" maxlength="1000" placeholder="Cuéntanos qué viste para que podamos revisarlo."></textarea>
+        </div>
+        <button id="report-submit-btn" class="btn btn-primary btn-block">Enviar reporte</button>
+      </div>
+    </div>
+  </div>
+
   <!-- FOOTER -->
   <footer class="footer">
     <div class="footer-inner">
@@ -200,6 +244,10 @@
       </div>
       <div class="footer-bottom">
         <p class="footer-copy">© 2024 ZitaJobs — Zitácuaro, Michoacán. Todos los derechos reservados.</p>
+        <div class="flex items-center gap-4" style="font-size:0.8rem;">
+          <a href="aviso-privacidad.html" style="color:var(--text-muted);">Aviso de privacidad</a>
+          <a href="terminos.html" style="color:var(--text-muted);">Términos</a>
+        </div>
         <div class="flex items-center gap-2">
           <img src="assets/images/logo.jpg" alt="" style="width:20px; height:20px; object-fit:contain; border-radius:4px; opacity:0.6;">
           <span style="font-size:0.75rem; color:var(--text-muted);">Construyendo juntos</span>

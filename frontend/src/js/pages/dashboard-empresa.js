@@ -76,6 +76,7 @@ function renderMyJobs() {
                 ${job.active
                   ? `<span class="status-badge badge-aceptado">● Activa</span>`
                   : `<span class="status-badge badge-rechazado">● Inactiva</span>`}
+                ${modBadge(job)}
               </td>
               <td>
                 <div style="display:flex; gap:0.4rem;">
@@ -89,6 +90,16 @@ function renderMyJobs() {
       </table>
     </div>
   `;
+}
+
+function modBadge(job) {
+  const map = {
+    pendiente: ['⏳ En revisión', 'Se publicará cuando la aprobemos.'],
+    en_revision: ['⚠ Oculta por reportes', 'Recibió reportes y la estamos revisando.'],
+    rechazada: ['✕ Rechazada', job.moderationNote || 'No cumple las reglas de la plataforma.']
+  };
+  const m = map[job.moderationStatus];
+  return m ? `<div style="margin-top:0.35rem;"><span class="mod-badge mod-${job.moderationStatus}" title="${escHtml(m[1])}">${m[0]}</span><div style="font-size:0.72rem; color:var(--text-muted); margin-top:0.2rem; max-width:200px;">${escHtml(m[1])}</div></div>` : '';
 }
 
 function populateJobSelector() {

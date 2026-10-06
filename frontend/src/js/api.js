@@ -19,6 +19,7 @@ export const clearAuth = () => {
 export const isLoggedIn = () => !!getToken();
 export const isEmpresa = () => getUser()?.role === 'empresa';
 export const isCandidato = () => getUser()?.role === 'candidato';
+export const isAdmin = () => !!getUser()?.isAdmin;
 
 // ─── HTTP HELPERS ─────────────────────────────────────────────────────────────
 const authHeaders = (extra = {}) => ({
@@ -52,6 +53,8 @@ export const auth = {
   register: (data) => request('POST', '/auth/register', data),
   login: (email, password) => request('POST', '/auth/login', { email, password }),
   me: () => request('GET', '/auth/me'),
+  forgotPassword: (email) => request('POST', '/auth/forgot-password', { email }),
+  resetPassword: (token, password) => request('POST', '/auth/reset-password', { token, password }),
 };
 
 // ─── JOBS ─────────────────────────────────────────────────────────────────────
@@ -65,6 +68,8 @@ export const jobs = {
   update: (id, data) => request('PUT', `/jobs/${id}`, data),
   delete: (id) => request('DELETE', `/jobs/${id}`),
   getMy: () => request('GET', '/jobs/my'),
+  getLocations: () => request('GET', '/jobs/locations'),
+  report: (id, reason, details) => request('POST', `/jobs/${id}/report`, { reason, details }),
 };
 
 // ─── APPLICATIONS ─────────────────────────────────────────────────────────────
@@ -94,6 +99,20 @@ export const users = {
     return request('POST', '/users/upload-logo', fd, true);
   },
   getCompanies: (q) => request('GET', `/users/companies${q ? '?q=' + encodeURIComponent(q) : ''}`),
+};
+
+// ─── ADMIN (moderación) ───────────────────────────────────────────────────────
+export const admin = {
+  overview: () => request('GET', '/admin/overview'),
+  jobs: (status) => request('GET', `/admin/jobs${status ? '?status=' + encodeURIComponent(status) : ''}`),
+  moderateJob: (id, status, note) => request('PATCH', `/admin/jobs/${id}/moderation`, { status, note }),
+  reports: (status) => request('GET', `/admin/reports${status ? '?status=' + status : ''}`),
+  updateReport: (id, status) => request('PATCH', `/admin/reports/${id}`, { status }),
+  companies: (params = {}) => {
+    const qs = new URLSearchParams(Object.fromEntries(Object.entries(params).filter(([, v]) => v))).toString();
+    return request('GET', `/admin/companies${qs ? '?' + qs : ''}`);
+  },
+  verifyCompany: (id, verified) => request('PATCH', `/admin/companies/${id}/verify`, { verified }),
 };
 
 // ─── UPLOADS URL ──────────────────────────────────────────────────────────────

@@ -4,7 +4,7 @@ import { renderNavbar, toast, setLoading, statusBadge, showModal, hideModal, ini
 import { initHeroScene } from '../three/heroScene.js';
 
 // ─── STATE ────────────────────────────────────────────────────────────────────
-let state = { jobs: [], page: 1, totalPages: 1, total: 0, q: '', category: '', type: '', selectedJobId: null };
+let state = { jobs: [], page: 1, totalPages: 1, total: 0, q: '', category: '', type: '', location: '', selectedJobId: null };
 
 // ─── INIT ─────────────────────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
@@ -15,8 +15,15 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Three.js hero — wait for script
   setTimeout(() => initHeroScene('hero-canvas'), 200);
 
-  await loadJobs();
+  // Enlaces compartidos: ?empleo=<id> abre esa vacante; ?company=<nombre> (desde el directorio) filtra por empresa
+  const params = new URLSearchParams(window.location.search);
+  const company = params.get('company');
+  if (company) { state.q = company; document.getElementById('search-q').value = company; }
+
+  await Promise.all([loadJobs(), loadLocations()]);
   bindEvents();
+  const sharedJob = params.get('empleo');
+  if (sharedJob) selectJob(sharedJob);
   // Animate quick stats
   setTimeout(() => {
     const el = document.querySelector('[style*="opacity:0"]');
@@ -24,13 +31,24 @@ document.addEventListener('DOMContentLoaded', async () => {
   }, 500);
 });
 
+// ─── LOCATIONS FILTER ─────────────────────────────────────────────────────────
+async function loadLocations() {
+  try {
+    const res = await jobs.getLocations();
+    const sel = document.getElementById('filter-location');
+    sel.innerHTML = '<option value="">Todas las ubicaciones</option>' +
+      res.locations.map(l => `<option value="${escHtml(l.name)}">${escHtml(l.name)} (${l.count})</option>`).join('');
+    sel.value = state.location;
+  } catch { /* el filtro es opcional: si falla, se oculta */ document.getElementById('filter-location')?.classList.add('hidden'); }
+}
+
 // ─── LOAD JOBS ────────────────────────────────────────────────────────────────
 async function loadJobs() {
   const listEl = document.getElementById('jobs-list');
   listEl.innerHTML = renderSkeletons(4);
 
   try {
-    const res = await jobs.getAll({ q: state.q, category: state.category, type: state.type, page: state.page, limit: 8 });
+    const res = await jobs.getAll({ q: state.q, category: state.category, type: state.type, location: state.location, page: state.page, limit: 8 });
     state.jobs = res.jobs;
     state.totalPages = res.totalPages;
     state.total = res.total;
@@ -71,7 +89,7 @@ function renderJobsList(jobList) {
         <h3 class="job-card-title">${escHtml(job.title)}</h3>
         <span style="font-size:0.7rem; color:var(--text-light); white-space:nowrap;">${relativeTime(job.createdAt)}</span>
       </div>
-      <p class="job-card-company">${escHtml(job.company?.name || 'Empresa')}</p>
+      <p class="job-card-company">${escHtml(job.company?.name || 'Empresa')} ${verifiedBadge(job.company)}</p>
       <p style="font-size:0.8rem; color:var(--text-muted); margin-top:0.25rem;">📍 ${escHtml(job.location)}</p>
       <div class="job-card-meta">
         <span class="job-tag salary">💰 ${escHtml(job.salary)}</span>
@@ -100,6 +118,9 @@ async function selectJob(jobId) {
 
     // Bind apply button
     document.getElementById('apply-cta-btn')?.addEventListener('click', () => openApplyModal(job));
+    bindShare(job);
+    document.getElementById('report-open-btn')?.addEventListener('click', () => openReportModal(job));
+    history.replaceState(null, '', `?empleo=${job.id}`);
     // Scroll on mobile
     if (window.innerWidth < 1024) detailEl.scrollIntoView({ behavior: 'smooth', block: 'start' });
   } catch (err) {
@@ -119,7 +140,7 @@ function renderJobDetail(job) {
           </div>
           <div style="flex:1;">
             <h2 style="font-family:var(--font-display); font-size:1.35rem; font-weight:800; margin-bottom:0.2rem;">${escHtml(job.title)}</h2>
-            <p style="color:var(--zita-primary); font-weight:600; font-size:0.9rem;">${escHtml(job.company?.name || '')}</p>
+            <p style="color:var(--zita-primary); font-weight:600; font-size:0.9rem;">${escHtml(job.company?.name || '')} ${verifiedBadge(job.company)}</p>
             <p style="color:var(--text-muted); font-size:0.8rem; margin-top:0.2rem;">📍 ${escHtml(job.location)} &nbsp;·&nbsp; 👁 ${job.views} vistas</p>
           </div>
         </div>
@@ -165,11 +186,78 @@ function renderJobDetail(job) {
               </div>
             </div>
           ` : `<p style="text-align:center; color:var(--text-muted); font-size:0.85rem;">Solo los candidatos pueden postularse</p>`}
+
+          <div class="share-row">
+            <span class="share-label">Compartir:</span>
+            <a class="share-btn wa" id="share-wa" target="_blank" rel="noopener" href="${shareLinks(job).whatsapp}">WhatsApp</a>
+            <a class="share-btn" id="share-fb" target="_blank" rel="noopener" href="${shareLinks(job).facebook}">Facebook</a>
+            <button type="button" class="share-btn" id="share-copy">Copiar enlace</button>
+            ${navigator.share ? '<button type="button" class="share-btn" id="share-native">Más…</button>' : ''}
+            <span style="flex:1;"></span>
+            <button type="button" class="report-link" id="report-open-btn">🚩 Reportar vacante</button>
+          </div>
         </div>
       </div>
     </div>
   `;
 }
+
+// ─── SHARE ────────────────────────────────────────────────────────────────────
+function shareUrl(job) {
+  return `${window.location.origin}${window.location.pathname.replace(/index(\.html)?$/, '')}?empleo=${job.id}`;
+}
+function shareText(job) {
+  return `Vacante: ${job.title}${job.company?.name ? ' en ' + job.company.name : ''} (${job.location}). Mírala en ZitaJobs:`;
+}
+function shareLinks(job) {
+  const url = shareUrl(job);
+  return {
+    whatsapp: `https://wa.me/?text=${encodeURIComponent(`${shareText(job)} ${url}`)}`,
+    facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`
+  };
+}
+function bindShare(job) {
+  document.getElementById('share-copy')?.addEventListener('click', async () => {
+    const url = shareUrl(job);
+    try { await navigator.clipboard.writeText(url); }
+    catch {
+      const t = document.createElement('textarea'); t.value = url; document.body.appendChild(t); t.select();
+      document.execCommand('copy'); t.remove();
+    }
+    toast('Enlace copiado', 'success', 2000);
+  });
+  document.getElementById('share-native')?.addEventListener('click', () => {
+    navigator.share({ title: job.title, text: shareText(job), url: shareUrl(job) }).catch(() => {});
+  });
+}
+
+// ─── REPORT MODAL ─────────────────────────────────────────────────────────────
+let currentReportJobId = null;
+function openReportModal(job) {
+  if (!isLoggedIn()) { toast('Inicia sesión para reportar una vacante', 'warning'); return; }
+  currentReportJobId = job.id;
+  document.getElementById('report-job-preview').innerHTML = `
+    <div style="font-weight:700;">${escHtml(job.title)}</div>
+    <div style="color:var(--zita-primary); font-size:0.875rem;">${escHtml(job.company?.name || '')}</div>`;
+  document.getElementById('report-reason').value = '';
+  document.getElementById('report-details').value = '';
+  showModal('report-modal');
+}
+document.getElementById('report-submit-btn')?.addEventListener('click', async () => {
+  const btn = document.getElementById('report-submit-btn');
+  const reason = document.getElementById('report-reason').value;
+  if (!reason) { toast('Elige un motivo para el reporte', 'warning'); return; }
+  setLoading(btn, true, 'Enviando...');
+  try {
+    const res = await jobs.report(currentReportJobId, reason, document.getElementById('report-details').value.trim());
+    hideModal('report-modal');
+    toast(res.message || 'Gracias por avisarnos', 'success', 4000);
+  } catch (err) {
+    toast(err.message || 'No se pudo enviar el reporte', 'error');
+  } finally {
+    setLoading(btn, false);
+  }
+});
 
 // ─── APPLY MODAL ──────────────────────────────────────────────────────────────
 let currentApplyJobId = null;
@@ -249,6 +337,7 @@ function bindEvents() {
   });
   document.getElementById('search-q')?.addEventListener('keydown', (e) => { if (e.key === 'Enter') document.getElementById('hero-search-btn').click(); });
   document.getElementById('filter-type')?.addEventListener('change', (e) => { state.type = e.target.value; state.page = 1; loadJobs(); });
+  document.getElementById('filter-location')?.addEventListener('change', (e) => { state.location = e.target.value; state.page = 1; loadJobs(); });
   document.getElementById('filter-category')?.addEventListener('change', (e) => { state.category = e.target.value; state.page = 1; loadJobs(); });
 
   document.getElementById('category-chips')?.addEventListener('click', (e) => {
@@ -263,6 +352,7 @@ function bindEvents() {
 }
 
 // ─── HELPERS ─────────────────────────────────────────────────────────────────
+function verifiedBadge(c) { return c?.verified ? '<span class="verified-badge" title="Empresa verificada por ZitaJobs">✔ Verificada</span>' : ''; }
 function escHtml(str) { return String(str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 function relativeTime(iso) {
   const diff = (Date.now() - new Date(iso)) / 1000;

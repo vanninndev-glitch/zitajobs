@@ -87,7 +87,9 @@
             </div>
             <div class="form-group" style="margin-bottom:0;">
               <label class="form-label" for="location">Ubicación</label>
-              <input type="text" id="location" class="form-input" placeholder="Zitácuaro, Michoacán" value="Zitácuaro, Michoacán"/>
+              <input type="text" id="location" class="form-input" list="locations-list" placeholder="Zitácuaro, Michoacán" value="Zitácuaro, Michoacán" autocomplete="off"/>
+              <datalist id="locations-list"></datalist>
+              <p style="font-size:0.75rem; color:var(--text-muted); margin-top:0.3rem;">Elige una sugerencia o escribe otra ciudad. Usa “Remoto” si es a distancia.</p>
             </div>
           </div>
 

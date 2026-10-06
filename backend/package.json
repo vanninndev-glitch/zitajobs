@@ -5,7 +5,9 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
-    "dev": "nodemon src/app.js"
+    "dev": "nodemon src/app.js",
+    "test": "node --test",
+    "make-admin": "node scripts/make-admin.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.58.0",

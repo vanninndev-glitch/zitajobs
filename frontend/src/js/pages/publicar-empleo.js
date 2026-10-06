@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (!isLoggedIn() || !isEmpresa()) { window.location.href = 'ingresar.html'; return; }
   renderNavbar('publicar');
   initScrollAnimations();
+  loadLocationSuggestions();
 
   // Preview button
   document.getElementById('preview-btn')?.addEventListener('click', showPreview);
@@ -25,7 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
     setLoading(btn, true, 'Publicando oferta...');
     try {
       const res = await jobs.create(data);
-      successEl.textContent = '✅ ¡Oferta publicada exitosamente! Los candidatos ya pueden postularse.';
+      successEl.textContent = res.job?.moderationStatus === 'pendiente'
+        ? '⏳ Recibimos tu oferta. Se publicará en cuanto la revisemos; te avisaremos por correo.'
+        : '✅ ¡Oferta publicada exitosamente! Los candidatos ya pueden postularse.';
       successEl.classList.remove('hidden');
       toast('Oferta publicada ✓', 'success');
       document.getElementById('job-form').reset();
@@ -40,6 +43,13 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+async function loadLocationSuggestions() {
+  try {
+    const res = await jobs.getLocations();
+    document.getElementById('locations-list').innerHTML = res.suggestions.map(s => `<option value="${escHtml(s)}"></option>`).join('');
+  } catch { /* opcional: sin sugerencias se puede escribir libremente */ }
+}
 
 function getFormData() {
   const requirements = document.getElementById('requirements').value

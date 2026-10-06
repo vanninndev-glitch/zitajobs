@@ -27,4 +27,18 @@ const requireRole = (...roles) => (req, res, next) => {
   next();
 };
 
-module.exports = { authMiddleware, requireRole };
+// Administrador = usuario con is_admin=TRUE en la base de datos (se asigna manualmente, ver README).
+const requireAdmin = async (req, res, next) => {
+  try {
+    const { query } = require('../config/db');
+    const r = await query('SELECT is_admin FROM users WHERE id=$1', [req.user.id]);
+    if (!r.rowCount || !r.rows[0].is_admin) {
+      return res.status(403).json({ success: false, message: 'Acceso solo para administradores' });
+    }
+    next();
+  } catch (err) {
+    next(err);
+  }
+};
+
+module.exports = { authMiddleware, requireRole, requireAdmin };
